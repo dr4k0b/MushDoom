@@ -6,21 +6,32 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public Globals G;
+
     public Rigidbody2D rb;
-    void Start()
+
+    private InputSystem input;
+    private InputAction move;
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        input = new InputSystem();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        G.XVelocity = move.ReadValue<Vector2>().x * G.speed;
 
+        rb.velocity = new Vector2(G.XVelocity,G.YVelocity);
     }
 
-    void OnMove(InputAction.CallbackContext context)
+    private void OnEnable()
     {
-        rb.velocity = context.ReadValue<Vector2>();
-        Debug.Log(context.ReadValue<Vector2>());
+        move = input.Player.Move;
+        move.Enable();
+    }
+
+    private void OnDisable()
+    {
+        move.Disable();
     }
 }
