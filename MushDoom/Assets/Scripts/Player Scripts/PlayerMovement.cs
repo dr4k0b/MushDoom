@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     private InputSystem input;
     private InputAction move;
+    private InputAction jump;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -19,9 +20,38 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        G.XVelocity = move.ReadValue<Vector2>().x * G.speed;
+        XMovement();
+        rb.velocity = new Vector2(G.XVelocity, G.YVelocity);
+    }
+    void YMovement()
+    {
+        
+    }
+    void XMovement()
+    {
+        float xDirection = move.ReadValue<Vector2>().x;
 
-        rb.velocity = new Vector2(G.XVelocity,G.YVelocity);
+        if (Mathf.Abs(G.XVelocity) < G.maxRunSpeed)
+        {
+            G.XVelocity += xDirection * G.acceleration;
+        }
+
+        if (Mathf.Abs(G.XVelocity) < G.deacceleration)
+        {
+            G.XVelocity = 0;
+        }
+
+        if (xDirection == 0)
+        {
+            if (G.XVelocity > 0)
+            {
+                G.XVelocity -= G.deacceleration;
+            }
+            if (G.XVelocity < 0)
+            {
+                G.XVelocity += G.deacceleration;
+            }
+        }
     }
 
     private void OnEnable()

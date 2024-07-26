@@ -259,7 +259,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Gravity: 0.45
-  speed: 7
+  acceleration: 0.2
+  deacceleration: 0.1
+  maxRunSpeed: 2
   XVelocity: 0
   YVelocity: 0
 --- !u!1 &860224768
