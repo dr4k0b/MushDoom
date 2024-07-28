@@ -11,7 +11,14 @@ public class Globals : MonoBehaviour
     [SerializeField] public float acceleration = 2;
     [SerializeField] public float deacceleration = 2;
     [SerializeField] public float maxRunSpeed = 0;
+    [SerializeField] public LayerMask groundLayerMask;
+
+
+    [Header("Information")]
+
+   // [HideInInspector]
 
     public float XVelocity = 0;
     public float YVelocity = 0;
+    public bool onGround;
 }

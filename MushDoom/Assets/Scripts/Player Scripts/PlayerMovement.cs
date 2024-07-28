@@ -5,15 +5,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public Globals G;
-
-    public Rigidbody2D rb;
+    Globals G;
+    Rigidbody2D rb;
 
     private InputSystem input;
     private InputAction move;
     private InputAction jump;
     private void Awake()
     {
+        G = FindFirstObjectByType<Globals>();
         rb = GetComponent<Rigidbody2D>();
         input = new InputSystem();
     }
@@ -21,11 +21,24 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         XMovement();
+        YMovement();
         rb.velocity = new Vector2(G.XVelocity, G.YVelocity);
     }
     void YMovement()
     {
-        
+        G.YVelocity -= G.Gravity;
+
+        Ray ray = new Ray(transform.GetChild(0).position, Vector2.down);
+
+        if (Physics.Raycast(ray, out RaycastHit hit,G.YVelocity, G.groundLayerMask))
+        {
+            if (hit.distance > G.YVelocity)
+            {
+
+                G.YVelocity = hit.distance;
+            }
+        Debug.Log(hit.distance);
+        }
     }
     void XMovement()
     {
@@ -53,15 +66,18 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
     private void OnEnable()
     {
         move = input.Player.Move;
         move.Enable();
+
+        jump = input.Player.Jump;
+        jump.Enable();
     }
 
     private void OnDisable()
     {
         move.Disable();
+        jump.Disable();
     }
 }
