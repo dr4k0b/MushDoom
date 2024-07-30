@@ -6,14 +6,16 @@ using UnityEngine;
 public class GroundCheck : MonoBehaviour
 {
     public float groundCheckRadius;
+
     Globals G;
+
     void Awake()
     {
         G = FindFirstObjectByType<Globals>();
     }
     void Update()
     {
-        Ray2D ray = new Ray2D(transform.position, Vector2.down);
-      //  G.onGround = Physics.OverlapSphere(transform.position, groundCheckRadius, G.groundLayerMask).Count() > 0;
+        if (!G.onGround)
+            G.onGround = Physics2D.OverlapCircle(transform.position, groundCheckRadius, G.groundLayerMask);
     }
 }

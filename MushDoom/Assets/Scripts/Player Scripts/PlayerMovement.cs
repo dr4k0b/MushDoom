@@ -22,23 +22,14 @@ public class PlayerMovement : MonoBehaviour
     {
         XMovement();
         YMovement();
-        rb.velocity = new Vector2(G.XVelocity, G.YVelocity);
+        rb.velocity = new Vector3(G.XVelocity, G.YVelocity);
     }
     void YMovement()
     {
-        G.YVelocity -= G.Gravity;
-
-        Ray ray = new Ray(transform.GetChild(0).position, Vector2.down);
-
-        if (Physics.Raycast(ray, out RaycastHit hit,G.YVelocity, G.groundLayerMask))
-        {
-            if (hit.distance > G.YVelocity)
-            {
-
-                G.YVelocity = hit.distance;
-            }
-        Debug.Log(hit.distance);
-        }
+        if (!G.onGround)
+            G.YVelocity -= G.Gravity;
+        else
+            G.YVelocity = 0;
     }
     void XMovement()
     {
@@ -73,11 +64,19 @@ public class PlayerMovement : MonoBehaviour
 
         jump = input.Player.Jump;
         jump.Enable();
+        jump.performed += Jump;
     }
 
     private void OnDisable()
     {
         move.Disable();
         jump.Disable();
+    }
+
+    private void Jump(InputAction.CallbackContext context)
+    {
+        if (G.onGround)
+            G.YVelocity = G.maxJumpHeight;
+        G.onGround = false;
     }
 }
