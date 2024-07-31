@@ -6,12 +6,20 @@ public class Globals : MonoBehaviour
 {
     [Header("Player Statistics")]
 
-    [SerializeField] public float Gravity = 2;
+    [SerializeField] public float Gravity;
 
-    [SerializeField] public float acceleration = 2;
-    [SerializeField] public float deacceleration = 2;
-    [SerializeField] public float maxRunSpeed = 0;
-    [SerializeField] public float maxJumpHeight = 0;
+    [SerializeField] public float acceleration;
+    [SerializeField] public float deacceleration;
+    [SerializeField] public float maxRunSpeed;
+    [SerializeField] public float jumpSpeed;
+    [SerializeField] public float jumpBufferTime;
+    [SerializeField] public float coyoteTime;
+
+    [SerializeField] public bool isDashing;
+    [SerializeField] public float dashSpeed;
+    [SerializeField] public float dashTime;
+
+
     [SerializeField] public LayerMask groundLayerMask;
 
 
@@ -19,7 +27,7 @@ public class Globals : MonoBehaviour
 
    // [HideInInspector]
 
-    public float XVelocity = 0;
-    public float YVelocity = 0;
+    public float XVelocity;
+    public float YVelocity;
     public bool onGround;
 }

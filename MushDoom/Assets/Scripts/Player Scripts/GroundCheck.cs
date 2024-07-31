@@ -5,17 +5,15 @@ using UnityEngine;
 
 public class GroundCheck : MonoBehaviour
 {
-    public float groundCheckRadius;
-
     Globals G;
-
+    BoxCollider2D groundCheck;
     void Awake()
     {
         G = FindFirstObjectByType<Globals>();
+        groundCheck = GetComponent<BoxCollider2D>();
     }
     void Update()
     {
-        if (!G.onGround)
-            G.onGround = Physics2D.OverlapCircle(transform.position, groundCheckRadius, G.groundLayerMask);
+        G.onGround = Physics2D.OverlapArea(groundCheck.bounds.min, groundCheck.bounds.max, G.groundLayerMask);
     }
 }
