@@ -4,30 +4,47 @@ using UnityEngine;
 
 public class Globals : MonoBehaviour
 {
-    [Header("Player Statistics")]
+    [Header("PLAYER STATISTICS")]
 
-    [SerializeField] public float Gravity;
+    [Header("Player Walk")]
 
+    [Range(0f, 1f)]
     [SerializeField] public float acceleration;
+    [Range(0f, 1f)]
     [SerializeField] public float deacceleration;
+    [Range(0f, 10f)]
     [SerializeField] public float maxRunSpeed;
+
+    [Header("Player Jump")]
+
+    [Range(0f, 40f)]
     [SerializeField] public float jumpSpeed;
+    [Range(0f, 1f)]
     [SerializeField] public float jumpBufferTime;
+    [Range(0f, 1f)]
     [SerializeField] public float coyoteTime;
 
-    [SerializeField] public bool isDashing;
+    [Header("Player Dash")]
+
+    [Range(0f, 20f)]
     [SerializeField] public float dashSpeed;
+    [Range(0f, 1f)]
     [SerializeField] public float dashTime;
 
+    [Header("WORLD STATISTICS")]
+
+    [Header("Ground")]
 
     [SerializeField] public LayerMask groundLayerMask;
 
 
-    [Header("Information")]
+    [Header("INFORMATION")]
 
-   // [HideInInspector]
+    // [HideInInspector]
 
     public float XVelocity;
-    public float YVelocity;
+    public float originalGravity;
+    public bool isDashing;
+    public bool canDash;
     public bool onGround;
 }
