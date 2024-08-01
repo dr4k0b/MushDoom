@@ -6,6 +6,11 @@ public class Globals : MonoBehaviour
 {
     [Header("PLAYER STATISTICS")]
 
+    [Header("Player General")]
+
+    [Range(0f, 1f)]
+    [SerializeField] public float actionDelayTime;
+
     [Header("Player Walk")]
 
     [Range(0f, 1f)]
@@ -20,6 +25,8 @@ public class Globals : MonoBehaviour
     [Range(0f, 40f)]
     [SerializeField] public float jumpSpeed;
     [Range(0f, 1f)]
+    [SerializeField] public float dashJumpHeight;
+    [Range(0f, 1f)]
     [SerializeField] public float jumpBufferTime;
     [Range(0f, 1f)]
     [SerializeField] public float coyoteTime;
@@ -30,6 +37,10 @@ public class Globals : MonoBehaviour
     [SerializeField] public float dashSpeed;
     [Range(0f, 1f)]
     [SerializeField] public float dashTime;
+
+    [Header("Player Throw")]
+
+    [SerializeField] public bool canThrow;
 
     [Header("WORLD STATISTICS")]
 
