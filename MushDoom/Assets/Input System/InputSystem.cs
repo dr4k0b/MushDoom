@@ -74,12 +74,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Throw"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""065b9cf9-f079-4b71-b03b-90448f23a23a"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Integer"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [

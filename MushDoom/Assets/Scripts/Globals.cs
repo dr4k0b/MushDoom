@@ -11,14 +11,21 @@ public class Globals : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] public float actionDelayTime;
 
+    [HideInInspector] public bool onGround;
+    [HideInInspector] public bool actionDelay;
+    [HideInInspector] public float originalGravity;
+    [HideInInspector] public int playerDirection;
+
     [Header("Player Walk")]
 
-    [Range(0f, 1f)]
+    [Range(0f, 5f)]
     [SerializeField] public float acceleration;
-    [Range(0f, 1f)]
+    [Range(0f, 5f)]
     [SerializeField] public float deacceleration;
     [Range(0f, 10f)]
     [SerializeField] public float maxRunSpeed;
+
+    [HideInInspector] public float XVelocity;
 
     [Header("Player Jump")]
 
@@ -38,24 +45,31 @@ public class Globals : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] public float dashTime;
 
+    [HideInInspector] public bool isDashing;
+    [HideInInspector] public bool canDash;
+
     [Header("Player Throw")]
 
     [SerializeField] public bool canThrow;
+    [Range(0f, 30f)]
+    [SerializeField] public float hatSpeed;
+    [Range(0f, 1f)]
+    [SerializeField] public float hatOutTime;
+
+    [HideInInspector] public int hatOut;
+    [HideInInspector] public bool canBounce;
 
     [Header("WORLD STATISTICS")]
 
+    [Header("Camera")]
+    [SerializeField] public int frameRate;
     [Header("Ground")]
 
     [SerializeField] public LayerMask groundLayerMask;
 
+    private void Update()
+    {
+        Application.targetFrameRate = frameRate;
+    }
 
-    [Header("INFORMATION")]
-
-    // [HideInInspector]
-
-    public float XVelocity;
-    public float originalGravity;
-    public bool isDashing;
-    public bool canDash;
-    public bool onGround;
 }

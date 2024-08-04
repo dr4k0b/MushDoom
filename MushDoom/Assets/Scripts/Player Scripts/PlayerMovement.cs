@@ -7,11 +7,12 @@ public class PlayerMovement : MonoBehaviour
 {
     public GameObject hat;
 
-    Globals G;
+    Globals g;
     Rigidbody2D rb;
 
     float jumpBufferTimer;
     float coyoteTimer;
+    float xDirection;
 
     private InputSystem input;
     private InputAction move;
@@ -20,60 +21,66 @@ public class PlayerMovement : MonoBehaviour
     private InputAction throwHat;
     private void Awake()
     {
-        G = FindFirstObjectByType<Globals>();
+        g = FindFirstObjectByType<Globals>();
         rb = GetComponent<Rigidbody2D>();
-        G.originalGravity = rb.gravityScale;
+        g.originalGravity = rb.gravityScale;
         input = new InputSystem();
     }
 
     private void Update()
     {
-        if (!G.isDashing)
-            XMovement();
+        xDirection = (int)move.ReadValue<Vector2>().x;
+        if (xDirection != 0)
+            g.playerDirection = (int)move.ReadValue<Vector2>().x;
+    }
+    private void FixedUpdate()
+    {
+        if (!g.isDashing && !g.actionDelay)
+            XMovement(xDirection);
+
+        g.hatOut = (int)throwHat.ReadValue<float>();
 
         JumpBuffer();
         CoyoteTime();
         CanDash();
 
-        if (!G.isDashing)
-            rb.velocity = new Vector3(G.XVelocity, rb.velocity.y);
-        else
-            rb.velocity = new Vector3(G.XVelocity, 0f);
+        if (!g.actionDelay)
+            rb.velocity = new Vector3(g.XVelocity, rb.velocity.y);
+        else if (g.isDashing)
+            rb.velocity = new Vector3(g.XVelocity, 0f);
     }
-
-    void XMovement()
+    void XMovement(float xDirection)
     {
-        float xDirection = move.ReadValue<Vector2>().x;
 
         if (xDirection != 0)
         {
-            transform.localScale = new Vector2(xDirection, transform.localScale.y);
+            transform.localScale = new Vector2(g.playerDirection, transform.localScale.y);
 
-            if (G.XVelocity < G.maxRunSpeed && xDirection == 1)
+            if (g.XVelocity < g.maxRunSpeed && xDirection == 1)
             {
-                G.XVelocity += G.acceleration;
+                g.XVelocity += g.acceleration;
             }
 
-            if (G.XVelocity > -G.maxRunSpeed && xDirection == -1)
+            if (g.XVelocity > -g.maxRunSpeed && xDirection == -1)
             {
-                G.XVelocity -= G.acceleration;
+                g.XVelocity -= g.acceleration;
             }
         }
 
-        if (Mathf.Abs(G.XVelocity) < G.deacceleration && xDirection == 0)
+        if (Mathf.Abs(g.XVelocity) < g.deacceleration && xDirection == 0)
         {
-            G.XVelocity = 0;
+            g.XVelocity = 0;
         }
 
-        if ((xDirection == 0 || Mathf.Abs(G.XVelocity) > G.maxRunSpeed) && G.onGround)
+        if ((xDirection == 0 || Mathf.Abs(g.XVelocity) > g.maxRunSpeed) && g.onGround)
         {
-            if (G.XVelocity > 0)
+            if (g.XVelocity > 0)
             {
-                G.XVelocity -= G.deacceleration;
+                g.XVelocity -= g.deacceleration;
             }
-            if (G.XVelocity < 0)
+            if (g.XVelocity < 0)
             {
-                G.XVelocity += G.deacceleration;
+                g.XVelocity += g.deacceleration;
             }
         }
     }
@@ -82,24 +89,23 @@ public class PlayerMovement : MonoBehaviour
         if (coyoteTimer > Time.time)
             PerformJump();
         else
-            jumpBufferTimer = Time.time + G.jumpBufferTime;
+            jumpBufferTimer = Time.time + g.jumpBufferTime;
     }
 
     private void PerformJump()
     {
-        if (G.isDashing)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, G.dashJumpHeight * G.jumpSpeed);
-        }
+        if (g.isDashing)
+            rb.velocity = new Vector2(rb.velocity.x, g.dashJumpHeight * g.jumpSpeed);
         else
-            rb.velocity = new Vector2(rb.velocity.x, G.jumpSpeed);
+            rb.velocity = new Vector2(rb.velocity.x, g.jumpSpeed);
+
         DashCancel();
         coyoteTimer = 0;
     }
 
     private void JumpBuffer()
     {
-        if (jumpBufferTimer > Time.time && G.onGround)
+        if (jumpBufferTimer > Time.time && g.onGround)
         {
             PerformJump();
             jumpBufferTimer = 0;
@@ -108,72 +114,93 @@ public class PlayerMovement : MonoBehaviour
 
     private void CoyoteTime()
     {
-        if (G.onGround)
+        if (g.onGround)
         {
-            coyoteTimer = Time.time + G.coyoteTime;
+            coyoteTimer = Time.time + g.coyoteTime;
         }
     }
 
     private void Dash(InputAction.CallbackContext context)
     {
-        if (!G.isDashing && G.canDash)
+        if (!g.isDashing && g.canDash)
         {
-            G.isDashing = true;
+            g.isDashing = true;
             StartCoroutine(PerformDash());
         }
     }
 
     private IEnumerator PerformDash()
     {
-        G.canDash = false;
+        g.canDash = false;
         rb.gravityScale = 0;
-        G.XVelocity = 0;
+        g.XVelocity = 0;
 
-        yield return new WaitForSeconds(G.actionDelayTime);
+        g.actionDelay = true;
+        yield return new WaitForSeconds(g.actionDelayTime);
+        g.actionDelay = false;
 
-        G.XVelocity = transform.localScale.x * G.dashSpeed;
+        transform.localScale = new Vector2(g.playerDirection, transform.localScale.y);
+        g.XVelocity = transform.localScale.x * g.dashSpeed;
+        //   rb.velocity = new Vector2(transform.localScale.x * g.dashSpeed, 10f);
 
-        yield return new WaitForSeconds(G.dashTime);
+        yield return new WaitForSeconds(g.dashTime);
 
-        rb.gravityScale = G.originalGravity;
-        G.isDashing = false;
+        rb.gravityScale = g.originalGravity;
+        g.isDashing = false;
 
     }
 
     private void DashCancel()
     {
-        G.isDashing = false;
-        rb.gravityScale = G.originalGravity;
+        g.isDashing = false;
+        rb.gravityScale = g.originalGravity;
     }
 
     private void CanDash()
     {
-        if (G.onGround)
+        if (g.onGround)
         {
-            G.canDash = true;
+            g.canDash = true;
         }
     }
 
     private void Throw(InputAction.CallbackContext context)
     {
-        if (G.canThrow)
+        if (g.canThrow)
         {
             StartCoroutine(PerformtThrow());
         }
     }
+
     private IEnumerator PerformtThrow()
     {
-        float originalSpeed = G.XVelocity;
+        Vector2 originalVelocity = rb.velocity;
+        float originalSpeed = g.XVelocity;
 
-        G.canThrow = false;
+        g.canThrow = false;
         rb.gravityScale = 0;
-        G.XVelocity = 0;
+        g.XVelocity = 0;
+        rb.velocity = Vector2.zero;
 
-        yield return new WaitForSeconds(G.actionDelayTime);
+        g.actionDelay = true;
+        yield return new WaitForSeconds(g.actionDelayTime);
+        g.actionDelay = false;
 
         Instantiate(hat, transform.position, transform.localRotation);
-        rb.gravityScale = G.originalGravity;
-        G.XVelocity = originalSpeed;
+
+        rb.gravityScale = g.originalGravity;
+        if (originalVelocity.y > 0)
+            rb.velocity = originalVelocity;
+        g.XVelocity = originalSpeed;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Hat" && g.canBounce)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, g.jumpSpeed);
+            DashCancel();
+        }
     }
     private void OnEnable()
     {

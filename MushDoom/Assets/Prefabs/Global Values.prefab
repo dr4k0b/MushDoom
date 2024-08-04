@@ -45,20 +45,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionDelayTime: 0.1
-  acceleration: 0.25
-  deacceleration: 0.2
+  onGround: 0
+  actionDelay: 0
+  originalGravity: 0
+  playerDirection: 0
+  acceleration: 2
+  deacceleration: 1.5
   maxRunSpeed: 7
+  XVelocity: 0
   jumpSpeed: 20
   dashJumpHeight: 1
   jumpBufferTime: 0.1
   coyoteTime: 0.1
   dashSpeed: 13
   dashTime: 0.25
+  isDashing: 0
+  canDash: 0
+  canThrow: 1
+  hatSpeed: 13
+  hatOutTime: 0.25
+  hatOut: 0
+  canBounce: 0
+  frameRate: 60
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 8
-  XVelocity: 0
-  originalGravity: 0
-  isDashing: 0
-  canDash: 0
-  onGround: 0
