@@ -59,11 +59,12 @@ MonoBehaviour:
   coyoteTime: 0.1
   dashSpeed: 13
   dashTime: 0.25
+  dashBufferTime: 0.7
   isDashing: 0
   canDash: 0
-  canThrow: 1
   hatSpeed: 13
   hatOutTime: 0.25
+  canThrow: 1
   hatOut: 0
   canBounce: 0
   frameRate: 60

@@ -12,18 +12,21 @@ public class HatMovement : MonoBehaviour
     private InputSystem input;
     private InputAction throwHat;
     Rigidbody2D rb;
+    BoxCollider2D bc;
     void Awake()
     {
         g = FindFirstObjectByType<Globals>();
-        input = new InputSystem();
         rb = GetComponent<Rigidbody2D>();
+        bc = GetComponent<BoxCollider2D>();
+        input = new InputSystem();
         StartCoroutine(HatMove());
     }
 
     IEnumerator HatMove()
     {
+        float hatOutTime = Time.time + g.hatOutTime;
         rb.velocity = new Vector2(g.hatSpeed * g.playerDirection, 0f);
-        yield return new WaitForSeconds(g.hatOutTime);
+        yield return new WaitUntil(() => g.CollisionCheckSquare(bc, rb.velocity) || Time.time > hatOutTime);
         rb.velocity = Vector2.zero;
         g.canBounce = true;
         yield return new WaitUntil(() => g.hatOut == 0);
@@ -31,6 +34,7 @@ public class HatMovement : MonoBehaviour
         g.canBounce = false;
         Destroy(gameObject);
     }
+
 
     private void OnEnable()
     {

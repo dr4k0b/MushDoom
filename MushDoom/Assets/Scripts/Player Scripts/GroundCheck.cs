@@ -14,6 +14,6 @@ public class GroundCheck : MonoBehaviour
     }
     void Update()
     {
-        g.onGround = Physics2D.OverlapArea(groundCheck.bounds.min, groundCheck.bounds.max, g.groundLayerMask);
+        g.onGround = g.CollisionCheckSquare(groundCheck);
     }
 }

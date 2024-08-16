@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rb;
 
     float jumpBufferTimer;
+    float dashBufferTimer;
     float coyoteTimer;
     float xDirection;
 
@@ -41,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
         g.hatOut = (int)throwHat.ReadValue<float>();
 
         JumpBuffer();
+        DashBuffer();
+        HatBounce();
         CoyoteTime();
         CanDash();
 
@@ -72,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
             g.XVelocity = 0;
         }
 
-        if ((xDirection == 0 || Mathf.Abs(g.XVelocity) > g.maxRunSpeed) && g.onGround)
+        if ((xDirection == 0 || Mathf.Abs(g.XVelocity) > g.maxRunSpeed))// && g.onGround)
         {
             if (g.XVelocity > 0)
             {
@@ -111,7 +114,6 @@ public class PlayerMovement : MonoBehaviour
             jumpBufferTimer = 0;
         }
     }
-
     private void CoyoteTime()
     {
         if (g.onGround)
@@ -122,11 +124,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Dash(InputAction.CallbackContext context)
     {
-        if (!g.isDashing && g.canDash)
+        if (g.canDash)
         {
             g.isDashing = true;
             StartCoroutine(PerformDash());
         }
+        else
+            dashBufferTimer = Time.time + g.dashBufferTime;
     }
 
     private IEnumerator PerformDash()
@@ -141,7 +145,6 @@ public class PlayerMovement : MonoBehaviour
 
         transform.localScale = new Vector2(g.playerDirection, transform.localScale.y);
         g.XVelocity = transform.localScale.x * g.dashSpeed;
-        //   rb.velocity = new Vector2(transform.localScale.x * g.dashSpeed, 10f);
 
         yield return new WaitForSeconds(g.dashTime);
 
@@ -158,11 +161,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void CanDash()
     {
-        if (g.onGround)
+        if (!g.isDashing && g.onGround && !g.actionDelay)
         {
             g.canDash = true;
         }
     }
+
+    private void DashBuffer()
+    {
+        if (dashBufferTimer > Time.time && g.canDash)
+        {
+            g.isDashing = true;
+            StartCoroutine(PerformDash());
+            dashBufferTimer = 0;
+        }
+    }
+
 
     private void Throw(InputAction.CallbackContext context)
     {
@@ -174,6 +188,13 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator PerformtThrow()
     {
+        if (g.isDashing && g.actionDelay)
+        {
+            DashCancel();
+            g.canDash = true;
+            dashBufferTimer = Time.time + g.dashBufferTime;
+        }
+
         Vector2 originalVelocity = rb.velocity;
         float originalSpeed = g.XVelocity;
 
@@ -188,15 +209,18 @@ public class PlayerMovement : MonoBehaviour
 
         Instantiate(hat, transform.position, transform.localRotation);
 
-        rb.gravityScale = g.originalGravity;
-        if (originalVelocity.y > 0)
-            rb.velocity = originalVelocity;
+        if (!g.isDashing)
+        {
+            rb.gravityScale = g.originalGravity;
+            if (originalVelocity.y > 0)
+                rb.velocity = originalVelocity;
+        }
         g.XVelocity = originalSpeed;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void HatBounce()
     {
-        if (collision.tag == "Hat" && g.canBounce)
+        if (g.canBounce && g.CollisionCheckSquare(gameObject.GetComponent<BoxCollider2D>(), LayerMask.GetMask("Hat")))
         {
             rb.velocity = new Vector2(rb.velocity.x, g.jumpSpeed);
             DashCancel();

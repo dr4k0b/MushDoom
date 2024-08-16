@@ -44,18 +44,20 @@ public class Globals : MonoBehaviour
     [SerializeField] public float dashSpeed;
     [Range(0f, 1f)]
     [SerializeField] public float dashTime;
+    [Range(0f, 1f)]
+    [SerializeField] public float dashBufferTime;
 
     [HideInInspector] public bool isDashing;
     [HideInInspector] public bool canDash;
 
     [Header("Player Throw")]
 
-    [SerializeField] public bool canThrow;
     [Range(0f, 30f)]
     [SerializeField] public float hatSpeed;
     [Range(0f, 1f)]
     [SerializeField] public float hatOutTime;
 
+    [HideInInspector] public bool canThrow;
     [HideInInspector] public int hatOut;
     [HideInInspector] public bool canBounce;
 
@@ -72,4 +74,17 @@ public class Globals : MonoBehaviour
         Application.targetFrameRate = frameRate;
     }
 
+    public bool CollisionCheckSquare(BoxCollider2D collider)
+    {
+        return Physics2D.OverlapArea(collider.bounds.min, collider.bounds.max, groundLayerMask);
+    }
+    public bool CollisionCheckSquare(BoxCollider2D collider, Vector2 offset)
+    {
+        collider.offset += offset;
+        return Physics2D.OverlapArea(collider.bounds.min, collider.bounds.max, groundLayerMask);
+    }
+    public bool CollisionCheckSquare(BoxCollider2D collider, LayerMask layer)
+    {
+        return Physics2D.OverlapArea(collider.bounds.min, collider.bounds.max, layer);
+    }
 }
