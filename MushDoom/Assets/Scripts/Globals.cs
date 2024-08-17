@@ -12,6 +12,7 @@ public class Globals : MonoBehaviour
     [SerializeField] public float actionDelayTime;
 
     [HideInInspector] public bool onGround;
+    [HideInInspector] public BoxCollider2D playerHitbox;
     [HideInInspector] public bool actionDelay;
     [HideInInspector] public float originalGravity;
     [HideInInspector] public int playerDirection;

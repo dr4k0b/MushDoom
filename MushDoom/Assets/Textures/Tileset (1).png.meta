@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 828bda8f668470a41bac7d3877c71de3
+guid: a466c3e8f958dc94a99f3d29eca66b98
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,31 +110,10 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Piller_4
+      name: Tileset (1)_15
       rect:
         serializedVersion: 2
-        x: 29
-        y: 160
-        width: 39
-        height: 35
-      alignment: 9
-      pivot: {x: 0.5, y: 0.45714286}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1fb5fc90670040a45aa2465ba6140674
-      internalID: -172136184
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Piller_6
-      rect:
-        serializedVersion: 2
-        x: 32
+        x: 64
         y: 128
         width: 32
         height: 32
@@ -145,18 +124,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2d5727d983a2f2347953939e4f23322b
-      internalID: -148769363
+      spriteID: 6505f04abc3463542b6d350d05a7f537
+      internalID: 1389824407
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Piller_7
+      name: Tileset (1)_17
       rect:
         serializedVersion: 2
-        x: 32
-        y: 96
+        x: 128
+        y: 128
         width: 32
         height: 32
       alignment: 0
@@ -166,17 +145,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 69f2df18edf6ca44bb188e8d10bac57a
-      internalID: 1499326526
+      spriteID: 4c85d8392b616da46aa1d2c74a7e191d
+      internalID: -694553940
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Piller_8
+      name: Tileset (1)_25
       rect:
         serializedVersion: 2
-        x: 32
+        x: 64
         y: 64
         width: 32
         height: 32
@@ -187,18 +166,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 36ab7661533107042a140d61892a5309
-      internalID: 1806339856
+      spriteID: a412a3e95e342a145af5bb3ab74a2962
+      internalID: -1678309571
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Piller_9
+      name: Tileset (1)_27
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
+        x: 128
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -208,8 +187,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db7653860bf7c5d47a887bfed5cd9b72
-      internalID: 528461143
+      spriteID: 8f115afd6156f4540b77fa127849e4fa
+      internalID: -1477172663
       vertices: []
       indices: 
       edges: []
@@ -225,17 +204,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Piller_0: 1666649298
-      Piller_1: 1038457812
-      Piller_10: -1475527756
-      Piller_2: -2035699114
-      Piller_3: -461682228
-      Piller_4: -172136184
-      Piller_5: -1490451587
-      Piller_6: -148769363
-      Piller_7: 1499326526
-      Piller_8: 1806339856
-      Piller_9: 528461143
+      Tileset (1)_0: 398958569
+      Tileset (1)_1: -936876504
+      Tileset (1)_10: -1796896365
+      Tileset (1)_11: 33104329
+      Tileset (1)_12: 1665777124
+      Tileset (1)_13: -173892602
+      Tileset (1)_14: -720408616
+      Tileset (1)_15: 1389824407
+      Tileset (1)_16: -2037466669
+      Tileset (1)_17: -694553940
+      Tileset (1)_18: -1571014891
+      Tileset (1)_19: -60969412
+      Tileset (1)_2: -774493434
+      Tileset (1)_20: -1964569141
+      Tileset (1)_21: -628941925
+      Tileset (1)_22: 411970058
+      Tileset (1)_23: 1578193012
+      Tileset (1)_24: -11715711
+      Tileset (1)_25: -1678309571
+      Tileset (1)_26: -1882974695
+      Tileset (1)_27: -1477172663
+      Tileset (1)_28: 1621611653
+      Tileset (1)_29: -1450341071
+      Tileset (1)_3: 1720891302
+      Tileset (1)_30: 2011206328
+      Tileset (1)_31: 1366066650
+      Tileset (1)_32: -1900961590
+      Tileset (1)_33: -814719802
+      Tileset (1)_4: -1469134617
+      Tileset (1)_5: -1835801461
+      Tileset (1)_6: 77514040
+      Tileset (1)_7: 992591449
+      Tileset (1)_8: -324002863
+      Tileset (1)_9: -1240586751
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

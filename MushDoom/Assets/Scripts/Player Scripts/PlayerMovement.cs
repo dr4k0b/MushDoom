@@ -27,7 +27,10 @@ public class PlayerMovement : MonoBehaviour
         g.originalGravity = rb.gravityScale;
         input = new InputSystem();
     }
-
+    private void Start()
+    {
+        g.playerHitbox = GetComponent<BoxCollider2D>();
+    }
     private void Update()
     {
         xDirection = (int)move.ReadValue<Vector2>().x;
@@ -188,6 +191,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator PerformtThrow()
     {
+        //easy dash bounce
         if (g.isDashing && g.actionDelay)
         {
             DashCancel();
